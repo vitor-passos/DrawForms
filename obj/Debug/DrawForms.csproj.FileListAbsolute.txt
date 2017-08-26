@@ -1,0 +1,9 @@
+c:\users\vitor\documents\visual studio 2017\Projects\DrawForms\bin\Debug\DrawForms.exe.config
+c:\users\vitor\documents\visual studio 2017\Projects\DrawForms\bin\Debug\DrawForms.exe
+c:\users\vitor\documents\visual studio 2017\Projects\DrawForms\bin\Debug\DrawForms.pdb
+c:\users\vitor\documents\visual studio 2017\Projects\DrawForms\obj\Debug\DrawForms.csprojResolveAssemblyReference.cache
+c:\users\vitor\documents\visual studio 2017\Projects\DrawForms\obj\Debug\DrawForms.Properties.Resources.resources
+c:\users\vitor\documents\visual studio 2017\Projects\DrawForms\obj\Debug\DrawForms.csproj.GenerateResource.Cache
+c:\users\vitor\documents\visual studio 2017\Projects\DrawForms\obj\Debug\DrawForms.exe
+c:\users\vitor\documents\visual studio 2017\Projects\DrawForms\obj\Debug\DrawForms.pdb
+c:\users\vitor\documents\visual studio 2017\Projects\DrawForms\obj\Debug\DrawForms.Form1.resources
