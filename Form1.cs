@@ -14,6 +14,8 @@ namespace DrawForms
 {
     public partial class Form1 : Form
     {
+
+
         public Form1()
         {
             InitializeComponent();
@@ -23,6 +25,8 @@ namespace DrawForms
         {
 
             ArrayList stringsTexto = new ArrayList();
+            label1.Text = "Angulo: ";
+            label2.Text = trackBar1.Value.ToString();
 
             try
             {   // Open the text file using a stream reader.
@@ -30,21 +34,15 @@ namespace DrawForms
                 Stream entrada = File.Open("teste.txt", FileMode.Open);
                 StreamReader leitor = new StreamReader(entrada);
                 string linha = leitor.ReadLine();
-                stringsTexto.Add(""+linha);
+                stringsTexto.Add("" + linha);
                 while (linha != null)
                 {
-                    MessageBox.Show(linha);
+                    //MessageBox.Show(linha);
                     linha = leitor.ReadLine();
                     stringsTexto.Add(linha);
 
                 }
 
-
-                for(int i =0; i < stringsTexto.Count-1; i++)
-                {
-                    Console.WriteLine("TEXTO::: " + stringsTexto[i]);
-                }
-                
                 leitor.Close();
                 entrada.Close();
 
@@ -55,7 +53,7 @@ namespace DrawForms
                 Console.WriteLine(ex.Message);
             }
 
-            Point[] pontos = new Point[stringsTexto.Count];
+            Point[] pontos = new Point[stringsTexto.Count - 1];
             int countPoints = 0;
 
             for (int i = 0; i < stringsTexto.Count - 1; i++)
@@ -72,42 +70,40 @@ namespace DrawForms
                     {
                         Int32.TryParse(substring, out x);
                         counting++;
-                    } else
+                    }
+                    else
                     {
                         Int32.TryParse(substring, out y);
                     }
                 }
-
                 pontos[countPoints] = new Point(x, y);
                 countPoints++;
-                    
+
             }
 
-            for (int i = 0; i< pontos.Length-1;i++)
-                Console.WriteLine(pontos[i]);
-            
+            // for (int i = 0; i < pontos.Length - 1; i++)
+            //   Console.WriteLine(pontos[i]);
 
             Graphics obj = CreateGraphics();
             Brush red = new SolidBrush(Color.Red);
             Brush blue = new SolidBrush(Color.Blue);
             Pen redPen = new Pen(red, 8);
+            Font f = new Font(Font, FontStyle.Bold);
 
-            //obj.DrawPolygon(redPen, pontos);
 
-            //for(int i =0; i<10; i++)
-            //{
-            //  obj.FillRectangle(red, 150+i, 40, 1, 1);
-            //}
+            for (int i = 0; i < pontos.Length; i++)
+            {
 
-            Bresenham(pontos[0].X,pontos[0].Y, pontos[1].X, pontos[1].Y, obj);
-            Bresenham(pontos[1].X, pontos[1].Y, pontos[2].X, pontos[2].Y, obj);
-            Bresenham(pontos[0].X, pontos[0].Y, pontos[2].X, pontos[2].Y, obj);
-            Console.WriteLine("Texto");
-            
-            // Fazer pontos aparecer na tela
-            //Font f = new Font(Font, FontStyle.Bold);
-
-            //obj.DrawString("" + pontos[0].X, f, red, pontos[0]);
+                if (i == pontos.Length - 1)
+                {
+                    Bresenham(pontos[0].X, pontos[0].Y, pontos[i].X, pontos[i].Y, obj);
+                }
+                else
+                {
+                    Bresenham(pontos[i].X, pontos[i].Y, pontos[i + 1].X, pontos[i + 1].Y, obj);
+                }
+                obj.DrawString("[" + pontos[i].X + "," + pontos[i].Y + "]", f, red, pontos[i]);
+            }
         }
 
         public void Bresenham(int x, int y, int x2, int y2, Graphics obj)
@@ -146,5 +142,18 @@ namespace DrawForms
                 }
             }
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            label2.Text = trackBar1.Value.ToString();
+            //Calculo do angulo
+            //redesenhar linhas
+        }
     }
+
 }
