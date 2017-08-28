@@ -15,6 +15,8 @@ namespace DrawForms
     public partial class Form1 : Form
     {
 
+        Point[] pontos;
+        Graphics obj;
 
         public Form1()
         {
@@ -53,7 +55,7 @@ namespace DrawForms
                 Console.WriteLine(ex.Message);
             }
 
-            Point[] pontos = new Point[stringsTexto.Count - 1];
+            pontos = new Point[stringsTexto.Count - 1];
             int countPoints = 0;
 
             for (int i = 0; i < stringsTexto.Count - 1; i++)
@@ -84,13 +86,13 @@ namespace DrawForms
             // for (int i = 0; i < pontos.Length - 1; i++)
             //   Console.WriteLine(pontos[i]);
 
-            Graphics obj = CreateGraphics();
-            Brush red = new SolidBrush(Color.Red);
-            Brush blue = new SolidBrush(Color.Blue);
-            Pen redPen = new Pen(red, 8);
-            Font f = new Font(Font, FontStyle.Bold);
-
-
+            obj = CreateGraphics();
+            DrawLines(obj);
+            
+        }
+       
+        public void DrawLines(Graphics obj)
+        {
             for (int i = 0; i < pontos.Length; i++)
             {
 
@@ -102,8 +104,12 @@ namespace DrawForms
                 {
                     Bresenham(pontos[i].X, pontos[i].Y, pontos[i + 1].X, pontos[i + 1].Y, obj);
                 }
+
+                Font f = new Font(Font, FontStyle.Bold);
+                Brush red = new SolidBrush(Color.Red);
                 obj.DrawString("[" + pontos[i].X + "," + pontos[i].Y + "]", f, red, pontos[i]);
             }
+
         }
 
         public void Bresenham(int x, int y, int x2, int y2, Graphics obj)
@@ -145,14 +151,42 @@ namespace DrawForms
 
         private void label1_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
+            this.CreateGraphics().Clear(Form1.ActiveForm.BackColor);
             label2.Text = trackBar1.Value.ToString();
-            //Calculo do angulo
+            Rotation(trackBar1.Value);
             //redesenhar linhas
+            DrawLines(obj);
+        }
+
+        private void Rotation(Double angle)
+        {
+                      
+            //Point[] a = new Point[b.Length-1];
+            int [,] matriz = new int [2,1];
+            Double [,] rotationMatriz= new Double[2, 2];
+
+            Double degress = Math.PI* angle / 180.0;
+
+            rotationMatriz[0, 0] = Math.Cos(degress);
+            rotationMatriz[0, 1] = Math.Sin(degress);
+            rotationMatriz[1, 0] = - Math.Sin(degress);
+            rotationMatriz[1, 1] = Math.Cos(degress);
+
+            for (int i = 0;i< pontos.Length; i++)
+            {
+                
+                matriz[0, 0] = pontos[i].X;
+                matriz[1, 0] = pontos[i].Y;
+
+                pontos[i].X = Convert.ToInt32(matriz[0, 0] * rotationMatriz[0, 0] + matriz[1,0]* rotationMatriz[0, 1]);
+                pontos[i].Y = Convert.ToInt32(matriz[0, 0] * rotationMatriz[1, 0] + matriz[1, 0] * rotationMatriz[1, 1]);
+
+            }
         }
     }
 
