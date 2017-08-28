@@ -15,8 +15,9 @@ namespace DrawForms
     public partial class Form1 : Form
     {
 
-        Point[] pontos;
+        PointF[] pontos;
         Graphics obj;
+        int oldAngle = 0;
 
         public Form1()
         {
@@ -29,7 +30,6 @@ namespace DrawForms
             ArrayList stringsTexto = new ArrayList();
             label1.Text = "Angulo: ";
             label2.Text = trackBar1.Value.ToString();
-
             try
             {   // Open the text file using a stream reader.
 
@@ -55,7 +55,7 @@ namespace DrawForms
                 Console.WriteLine(ex.Message);
             }
 
-            pontos = new Point[stringsTexto.Count - 1];
+            pontos = new PointF[stringsTexto.Count - 1];
             int countPoints = 0;
 
             for (int i = 0; i < stringsTexto.Count - 1; i++)
@@ -112,25 +112,25 @@ namespace DrawForms
 
         }
 
-        public void Bresenham(int x, int y, int x2, int y2, Graphics obj)
+        public void Bresenham(float x, float y, float x2, float y2, Graphics obj)
         {
             Brush blue = new SolidBrush(Color.Blue);
-            int w = x2 - x;
-            int h = y2 - y;
+            float w = x2 - x;
+            float h = y2 - y;
             int dx1 = 0, dy1 = 0, dx2 = 0, dy2 = 0;
             if (w < 0) dx1 = -1; else if (w > 0) dx1 = 1;
             if (h < 0) dy1 = -1; else if (h > 0) dy1 = 1;
             if (w < 0) dx2 = -1; else if (w > 0) dx2 = 1;
-            int longest = Math.Abs(w);
-            int shortest = Math.Abs(h);
+            int longest = Convert.ToInt32(Math.Abs(w));
+            float shortest = Math.Abs(h);
             if (!(longest > shortest))
             {
-                longest = Math.Abs(h);
+                longest = Convert.ToInt32(Math.Abs(h));
                 shortest = Math.Abs(w);
                 if (h < 0) dy2 = -1; else if (h > 0) dy2 = 1;
                 dx2 = 0;
             }
-            int numerator = longest >> 1;
+            float numerator = longest >> 1;
             for (int i = 0; i <= longest; i++)
             {
                 obj.FillRectangle(blue, x, y, 1, 1);
@@ -158,16 +158,61 @@ namespace DrawForms
         {
             this.CreateGraphics().Clear(Form1.ActiveForm.BackColor);
             label2.Text = trackBar1.Value.ToString();
-            Rotation(trackBar1.Value);
+            
+
+            if(oldAngle > 0)
+            {
+                RotationEixo(trackBar1.Value - oldAngle);
+            }
+            else
+            {
+                RotationEixo(trackBar1.Value);
+            }
+            oldAngle = trackBar1.Value;
+
             //redesenhar linhas
             DrawLines(obj);
+        }
+
+        private void RotationEixo (Double angle)
+        {
+            float[,] matriz = new float[2, 1];
+            Double[,] rotationMatriz = new Double[2, 2];
+
+            Double degress = Math.PI * angle / 180.0;
+
+            rotationMatriz[0, 0] = Math.Cos(degress);
+            rotationMatriz[0, 1] = Math.Sin(degress);
+            rotationMatriz[1, 0] = -Math.Sin(degress);
+            rotationMatriz[1, 1] = Math.Cos(degress);
+            float centerX = 0;
+            float centerY = 0;
+            for (int j =0;j< pontos.Length; j++)
+            {
+                centerX += pontos[j].X;
+                centerY += pontos[j].Y;
+            }
+
+            centerX = centerX/pontos.Length;
+            centerY = centerY/pontos.Length;
+            for (int i = 0; i < pontos.Length; i++)
+            {
+
+                matriz[0, 0] = pontos[i].X;
+                matriz[1, 0] = pontos[i].Y;
+
+                pontos[i].X = (float)(((matriz[0, 0] -centerX) * rotationMatriz[0, 0] + (matriz[1, 0]-centerY) * rotationMatriz[0, 1])+centerX);
+                pontos[i].Y = (float)(((matriz[0, 0] - centerX)* rotationMatriz[1, 0] + (matriz[1, 0]-centerY) * rotationMatriz[1, 1])+centerY);
+
+            }
+        
         }
 
         private void Rotation(Double angle)
         {
                       
             //Point[] a = new Point[b.Length-1];
-            int [,] matriz = new int [2,1];
+            float [,] matriz = new float [2,1];
             Double [,] rotationMatriz= new Double[2, 2];
 
             Double degress = Math.PI* angle / 180.0;
@@ -183,8 +228,8 @@ namespace DrawForms
                 matriz[0, 0] = pontos[i].X;
                 matriz[1, 0] = pontos[i].Y;
 
-                pontos[i].X = Convert.ToInt32(matriz[0, 0] * rotationMatriz[0, 0] + matriz[1,0]* rotationMatriz[0, 1]);
-                pontos[i].Y = Convert.ToInt32(matriz[0, 0] * rotationMatriz[1, 0] + matriz[1, 0] * rotationMatriz[1, 1]);
+                pontos[i].X = (float)(matriz[0, 0] * rotationMatriz[0, 0] + matriz[1,0]* rotationMatriz[0, 1]);
+                pontos[i].Y = (float)(matriz[0, 0] * rotationMatriz[1, 0] + matriz[1, 0] * rotationMatriz[1, 1]);
 
             }
         }
