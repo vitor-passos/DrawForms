@@ -29,7 +29,10 @@ namespace DrawForms
 
             ArrayList stringsTexto = new ArrayList();
             label1.Text = "Angulo: ";
-            label2.Text = trackBar1.Value.ToString();
+            label3.Text = "Escala: ";
+            textBox1.Text = "0";
+            textBox2.Text = "1";
+
             try
             {   // Open the text file using a stream reader.
 
@@ -157,7 +160,8 @@ namespace DrawForms
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             this.CreateGraphics().Clear(Form1.ActiveForm.BackColor);
-            label2.Text = trackBar1.Value.ToString();
+            //label2.Text = trackBar1.Value.ToString();
+            this.textBox1.Text = trackBar1.Value.ToString();
             
 
             if(oldAngle > 0)
@@ -237,10 +241,35 @@ namespace DrawForms
         {
             this.CreateGraphics().Clear(Form1.ActiveForm.BackColor);
             Double realScale = trackBar2.Value * 0.1;
+            textBox2.Text = (trackBar2.Value * 0.1).ToString();
             Console.WriteLine("Real scale = " + realScale + "Value = " + trackBar2.Value);
             PointF[] teste = Scale(realScale, pontos);
             
             DrawLines(obj,teste);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 
