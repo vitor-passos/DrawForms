@@ -87,27 +87,27 @@ namespace DrawForms
             //   Console.WriteLine(pontos[i]);
 
             obj = CreateGraphics();
-            DrawLines(obj);
+            DrawLines(obj,pontos);
             
         }
        
-        public void DrawLines(Graphics obj)
+        public void DrawLines(Graphics obj, PointF[] desenhar)
         {
-            for (int i = 0; i < pontos.Length; i++)
+            for (int i = 0; i < desenhar.Length; i++)
             {
 
-                if (i == pontos.Length - 1)
+                if (i == desenhar.Length - 1)
                 {
-                    Bresenham(pontos[0].X, pontos[0].Y, pontos[i].X, pontos[i].Y, obj);
+                    Bresenham(desenhar[0].X, desenhar[0].Y, desenhar[i].X, desenhar[i].Y, obj);
                 }
                 else
                 {
-                    Bresenham(pontos[i].X, pontos[i].Y, pontos[i + 1].X, pontos[i + 1].Y, obj);
+                    Bresenham(desenhar[i].X, desenhar[i].Y, desenhar[i + 1].X, desenhar[i + 1].Y, obj);
                 }
 
                 Font f = new Font(Font, FontStyle.Bold);
                 Brush red = new SolidBrush(Color.Red);
-                obj.DrawString("[" + pontos[i].X + "," + pontos[i].Y + "]", f, red, pontos[i]);
+                obj.DrawString("[" + desenhar[i].X + "," + desenhar[i].Y + "]", f, red, desenhar[i]);
             }
 
         }
@@ -171,7 +171,7 @@ namespace DrawForms
             oldAngle = trackBar1.Value;
 
             //redesenhar linhas
-            DrawLines(obj);
+            DrawLines(obj,pontos);
         }
 
         private void RotationEixo (Double angle)
@@ -208,30 +208,39 @@ namespace DrawForms
         
         }
 
-        private void Rotation(Double angle)
+        private PointF[] Scale (Double scale, PointF[] a)
         {
-                      
-            //Point[] a = new Point[b.Length-1];
-            float [,] matriz = new float [2,1];
-            Double [,] rotationMatriz= new Double[2, 2];
-
-            Double degress = Math.PI* angle / 180.0;
-
-            rotationMatriz[0, 0] = Math.Cos(degress);
-            rotationMatriz[0, 1] = Math.Sin(degress);
-            rotationMatriz[1, 0] = - Math.Sin(degress);
-            rotationMatriz[1, 1] = Math.Cos(degress);
-
-            for (int i = 0;i< pontos.Length; i++)
+            float centerX = 0;
+            float centerY = 0;
+            PointF[] newArray = new PointF[a.Length];
+            for (int j = 0; j < a.Length; j++)
             {
-                
-                matriz[0, 0] = pontos[i].X;
-                matriz[1, 0] = pontos[i].Y;
+                centerX += a[j].X;
+                centerY += a[j].Y;
+            }
 
-                pontos[i].X = (float)(matriz[0, 0] * rotationMatriz[0, 0] + matriz[1,0]* rotationMatriz[0, 1]);
-                pontos[i].Y = (float)(matriz[0, 0] * rotationMatriz[1, 0] + matriz[1, 0] * rotationMatriz[1, 1]);
+            centerX = centerX / a.Length;
+            centerY = centerY / a.Length;
+
+            for (int i = 0; i < a.Length; i++)
+            {
+                newArray[i].X = (float) ((a[i].X - centerX) * scale + centerX);
+                newArray[i].Y = (float)((a[i].Y - centerY) * scale + centerY);
 
             }
+
+            return newArray;
+
+        }
+
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+            this.CreateGraphics().Clear(Form1.ActiveForm.BackColor);
+            Double realScale = trackBar2.Value * 0.1;
+            Console.WriteLine("Real scale = " + realScale + "Value = " + trackBar2.Value);
+            PointF[] teste = Scale(realScale, pontos);
+            
+            DrawLines(obj,teste);
         }
     }
 
