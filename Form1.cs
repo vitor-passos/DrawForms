@@ -14,8 +14,10 @@ namespace DrawForms
 {
     public partial class Form1 : Form
     {
+        
 
         PointF[] pontos;
+        PointF[] originalPontos;
         Graphics obj;
         int oldAngle = 0;
 
@@ -32,7 +34,7 @@ namespace DrawForms
             label3.Text = "Escala: ";
             textBox1.Text = "0";
             textBox2.Text = "1";
-
+            
             try
             {   // Open the text file using a stream reader.
 
@@ -91,6 +93,8 @@ namespace DrawForms
 
             obj = CreateGraphics();
             DrawLines(obj,pontos);
+            originalPontos = pontos;
+
             
         }
        
@@ -110,7 +114,7 @@ namespace DrawForms
 
                 Font f = new Font(Font, FontStyle.Bold);
                 Brush red = new SolidBrush(Color.Red);
-                obj.DrawString("[" + desenhar[i].X + "," + desenhar[i].Y + "]", f, red, desenhar[i]);
+                obj.DrawString("[" + desenhar[i].X + " | " + desenhar[i].Y + "]", f, red, desenhar[i]);
             }
 
         }
@@ -157,6 +161,16 @@ namespace DrawForms
 
         }
 
+        private void MovePolygon(PointF[] a,float xDes, float yDes)
+        {
+            for(int i = 0; i< pontos.Length; i++)
+            {
+                a[i].X = a[i].X + xDes;
+                a[i].Y = a[i].Y + yDes;
+            }
+        }
+
+
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             this.CreateGraphics().Clear(Form1.ActiveForm.BackColor);
@@ -166,11 +180,13 @@ namespace DrawForms
 
             if(oldAngle > 0)
             {
-                RotationEixo(trackBar1.Value - oldAngle);
+                pontos = RotationEixo(pontos,trackBar1.Value - oldAngle);
+                originalPontos = RotationEixo(originalPontos, trackBar1.Value - oldAngle);
             }
             else
             {
-                RotationEixo(trackBar1.Value);
+                pontos = RotationEixo(pontos,trackBar1.Value);
+                originalPontos = RotationEixo(originalPontos, trackBar1.Value);
             }
             oldAngle = trackBar1.Value;
 
@@ -178,7 +194,7 @@ namespace DrawForms
             DrawLines(obj,pontos);
         }
 
-        private void RotationEixo (Double angle)
+        private PointF[] RotationEixo (PointF[] a,Double angle)
         {
             float[,] matriz = new float[2, 1];
             Double[,] rotationMatriz = new Double[2, 2];
@@ -191,24 +207,26 @@ namespace DrawForms
             rotationMatriz[1, 1] = Math.Cos(degress);
             float centerX = 0;
             float centerY = 0;
-            for (int j =0;j< pontos.Length; j++)
+            for (int j =0;j< a.Length; j++)
             {
-                centerX += pontos[j].X;
-                centerY += pontos[j].Y;
+                centerX += a[j].X;
+                centerY += a[j].Y;
             }
 
-            centerX = centerX/pontos.Length;
-            centerY = centerY/pontos.Length;
-            for (int i = 0; i < pontos.Length; i++)
+            centerX = centerX/a.Length;
+            centerY = centerY/a.Length;
+            for (int i = 0; i < a.Length; i++)
             {
 
-                matriz[0, 0] = pontos[i].X;
-                matriz[1, 0] = pontos[i].Y;
+                matriz[0, 0] = a[i].X;
+                matriz[1, 0] = a[i].Y;
 
-                pontos[i].X = (float)(((matriz[0, 0] -centerX) * rotationMatriz[0, 0] + (matriz[1, 0]-centerY) * rotationMatriz[0, 1])+centerX);
-                pontos[i].Y = (float)(((matriz[0, 0] - centerX)* rotationMatriz[1, 0] + (matriz[1, 0]-centerY) * rotationMatriz[1, 1])+centerY);
+                a[i].X = (float)(((matriz[0, 0] -centerX) * rotationMatriz[0, 0] + (matriz[1, 0]-centerY) * rotationMatriz[0, 1])+centerX);
+                a[i].Y = (float)(((matriz[0, 0] - centerX)* rotationMatriz[1, 0] + (matriz[1, 0]-centerY) * rotationMatriz[1, 1])+centerY);
 
             }
+
+            return a;
         
         }
 
@@ -243,9 +261,9 @@ namespace DrawForms
             Double realScale = trackBar2.Value * 0.1;
             textBox2.Text = (trackBar2.Value * 0.1).ToString();
             Console.WriteLine("Real scale = " + realScale + "Value = " + trackBar2.Value);
-            PointF[] teste = Scale(realScale, pontos);
+            pontos = Scale(realScale, originalPontos);
             
-            DrawLines(obj,teste);
+            DrawLines(obj,pontos);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -270,6 +288,42 @@ namespace DrawForms
         private void label2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+
+
+            this.CreateGraphics().Clear(Form1.ActiveForm.BackColor);
+
+            if (e.KeyData == Keys.A)
+            {
+                MovePolygon(pontos,-1, 0);
+                MovePolygon(originalPontos, -1, 0);
+                DrawLines(obj, pontos);
+
+            }
+            if (e.KeyData == Keys.S)
+            {
+                MovePolygon(pontos,0, 1);
+                MovePolygon(originalPontos,0, 1);
+                DrawLines(obj, pontos);
+
+            }
+            if (e.KeyData == Keys.D)
+            {
+                MovePolygon(pontos,1, 0);
+                MovePolygon(originalPontos, 1, 0);
+                DrawLines(obj, pontos);
+
+            }
+            if (e.KeyData == Keys.W)
+            {
+                MovePolygon(pontos,0, -1);
+                MovePolygon(originalPontos, 0, -1);
+                DrawLines(obj, pontos);
+
+            }
         }
     }
 
