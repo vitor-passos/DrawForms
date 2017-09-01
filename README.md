@@ -16,7 +16,7 @@ Para a entrada de dados do polígono, foi utilizado um arquivo texto com as coor
 Componentes de tela:
 Para esse projeto foi utilizado dois “trackbar" do Form c# principal.
 Utilizado para que tenha limites na escala e na rotação do polígono citados anteriormente.
-Também neste Form é tratado os eventos do teclado, para que o polígono possa se movimentar sobre a tela. As teclas foram definidas desta forma:
+Também neste Form é tratado os eventos do teclado, para que o polígono possa se movimentar sobre a tela. As teclas foram definidas desta forma: <br/>
 W > Movimenta para cima. <br/>
 A > Movimenta para esquerda. <br/>
 S > Movimenta para baixo. <br/>
