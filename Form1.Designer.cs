@@ -57,7 +57,6 @@ namespace DrawForms
             this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "label1";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // trackBar2
             // 
@@ -78,7 +77,6 @@ namespace DrawForms
             this.label3.Size = new System.Drawing.Size(35, 13);
             this.label3.TabIndex = 4;
             this.label3.Text = "label3";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // textBox1
             // 
@@ -87,7 +85,6 @@ namespace DrawForms
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(32, 20);
             this.textBox1.TabIndex = 6;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // textBox2
             // 
@@ -111,7 +108,6 @@ namespace DrawForms
             this.KeyPreview = true;
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
