@@ -17,8 +17,8 @@ Componentes de tela:
 Para esse projeto foi utilizado dois “trackbar" do Form c# principal.
 Utilizado para que tenha limites na escala e na rotação do polígono citados anteriormente.
 Também neste Form é tratado os eventos do teclado, para que o polígono possa se movimentar sobre a tela. As teclas foram definidas desta forma:
-W > Movimenta para cima.
-A > Movimenta para esquerda.
-S > Movimenta para baixo.
+W > Movimenta para cima. <br/>
+A > Movimenta para esquerda. <br/>
+S > Movimenta para baixo. <br/>
 D > Movimenta para direita.
 
