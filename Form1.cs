@@ -72,26 +72,29 @@ namespace DrawForms
                 draw.DrawLines(pontos);
 
             }
-            if (e.KeyData == Keys.S)
+            else if (e.KeyData == Keys.S)
             {
                 transformationPolygon.MovePolygon(pontos,0, 1);
                 transformationPolygon.MovePolygon(originalPontos,0, 1);
                 draw.DrawLines(pontos);
 
             }
-            if (e.KeyData == Keys.D)
+            else if (e.KeyData == Keys.D)
             {
                 transformationPolygon.MovePolygon(pontos,1, 0);
                 transformationPolygon.MovePolygon(originalPontos, 1, 0);
                 draw.DrawLines(pontos);
 
             }
-            if (e.KeyData == Keys.W)
+            else if (e.KeyData == Keys.W)
             {
                 transformationPolygon.MovePolygon(pontos,0, -1);
                 transformationPolygon.MovePolygon(originalPontos, 0, -1);
                 draw.DrawLines(pontos);
 
+            } else
+            {
+                draw.DrawLines(pontos);
             }
         }
         
