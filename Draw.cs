@@ -4,16 +4,18 @@ using System.Drawing;
 
 public class Draw
 {
-    Graphics obj;
-    FontFamily fontFamily;
-    Font font;
-    Brush red;
+    private Graphics obj;
+    private FontFamily fontFamily;
+    private Font font;
+    private Brush red;
+    private Brush blue;
     public Draw(Graphics o)
     {
         obj = o;
         fontFamily = new FontFamily("Arial");
         font = new Font(fontFamily, 11, FontStyle.Regular, GraphicsUnit.Pixel);
         red = new SolidBrush(Color.Red);
+        blue = new SolidBrush(Color.Blue);
     }
 
     public void DrawLines(PointF[] polygon)
@@ -37,7 +39,6 @@ public class Draw
 
     private void Bresenham(float x, float y, float x2, float y2)
     {
-        Brush blue = new SolidBrush(Color.Blue);
         float w = x2 - x;
         float h = y2 - y;
         int dx1 = 0, dy1 = 0, dx2 = 0, dy2 = 0;

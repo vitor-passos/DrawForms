@@ -33,31 +33,30 @@ namespace DrawForms
             originalPontos = pontos;
         }
         
-        private void trackBar1_Scroll(object sender, EventArgs e)
+        private void TrackBar1_Scroll(object sender, EventArgs e)
         {
             this.CreateGraphics().Clear(Form1.ActiveForm.BackColor);
             this.textBox1.Text = trackBar1.Value.ToString();
         
             if(oldAngle > 0)
             {
-                pontos = transformationPolygon.RotationEixo(pontos,trackBar1.Value - oldAngle);
-                originalPontos = transformationPolygon.RotationEixo(originalPontos, trackBar1.Value - oldAngle);
+                pontos = transformationPolygon.RotationAxis(pontos,trackBar1.Value - oldAngle);
+                originalPontos = transformationPolygon.RotationAxis(originalPontos, trackBar1.Value - oldAngle);
             }
             else
             {
-                pontos = transformationPolygon.RotationEixo(pontos,trackBar1.Value);
-                originalPontos = transformationPolygon.RotationEixo(originalPontos, trackBar1.Value);
+                pontos = transformationPolygon.RotationAxis(pontos,trackBar1.Value);
+                originalPontos = transformationPolygon.RotationAxis(originalPontos, trackBar1.Value);
             }
             oldAngle = trackBar1.Value;
             draw.DrawLines(pontos);
         }
 
-        private void trackBar2_Scroll(object sender, EventArgs e)
+        private void TrackBar2_Scroll(object sender, EventArgs e)
         {
             this.CreateGraphics().Clear(Form1.ActiveForm.BackColor);
             Double realScale = trackBar2.Value * 0.1;
             textBox2.Text = (trackBar2.Value * 0.1).ToString();
-            Console.WriteLine("Real scale = " + realScale + "Value = " + trackBar2.Value);
             pontos = transformationPolygon.Scale(realScale, originalPontos);
             draw.DrawLines(pontos);
         }

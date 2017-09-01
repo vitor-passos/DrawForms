@@ -7,7 +7,7 @@ public class Polygon
 {
 
     private PointF[] pontos;
-    private ArrayList stringsTexto = new ArrayList();
+    private ArrayList stringsText = new ArrayList();
 
     public Polygon(String nameDoc)
 	{
@@ -17,12 +17,12 @@ public class Polygon
             Stream entrada = File.Open(nameDoc, FileMode.Open);
             StreamReader leitor = new StreamReader(entrada);
             string linha = leitor.ReadLine();
-            stringsTexto.Add("" + linha);
+            stringsText.Add("" + linha);
             while (linha != null)
             {
                 //MessageBox.Show(linha);
                 linha = leitor.ReadLine();
-                stringsTexto.Add(linha);
+                stringsText.Add(linha);
             }
 
             leitor.Close();
@@ -40,12 +40,12 @@ public class Polygon
 
     private void FormPolygon ()
     {
-        pontos = new PointF[stringsTexto.Count - 1];
+        pontos = new PointF[stringsText.Count - 1];
         int countPoints = 0;
 
-        for (int i = 0; i < stringsTexto.Count - 1; i++)
+        for (int i = 0; i < stringsText.Count - 1; i++)
         {
-            String value = stringsTexto[i].ToString();
+            String value = stringsText[i].ToString();
             Char delimiter = ',';
             String[] substrings = value.Split(delimiter);
             int counting = 0;

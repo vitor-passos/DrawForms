@@ -32,7 +32,7 @@ public class Transformation
 
     }
 
-    public PointF[] RotationEixo(PointF[] a, Double angle)
+    public PointF[] RotationAxis(PointF[] a, Double angle)
     {
         float[,] matriz = new float[2, 1];
         Double[,] rotationMatriz = new Double[2, 2];
