@@ -7,7 +7,6 @@ public class Polygon
 {
 
     private PointF[] pontos;
-    private PointF[] originalPontos;
     private ArrayList stringsTexto = new ArrayList();
 
     public Polygon(String nameDoc)
@@ -70,7 +69,7 @@ public class Polygon
         }
     }
 
-    public PointF[] getPoints ()
+    public PointF[] GetPoints ()
     {
         return pontos;
     }

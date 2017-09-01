@@ -7,6 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrawForms", "DrawForms.cspr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E33BD2AB-B729-4E6C-83F6-544E6AADB5FC}"
 	ProjectSection(SolutionItems) = preProject
+		Draw.cs = Draw.cs
 		Polygon.cs = Polygon.cs
 		Transformation.cs = Transformation.cs
 	EndProjectSection

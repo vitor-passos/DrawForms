@@ -7,7 +7,6 @@ public class Transformation
 	{
 	}
 
-
     public PointF[] Scale(Double scale, PointF[] a)
     {
         float centerX = 0;
